@@ -1,0 +1,17 @@
+/* CSS pielāgojums poga un ievades laukiem */
+.custom-input:focus,
+.custom-input:active,
+.custgitom-input:focus,
+.custgitom-input:active {
+    background-color: #f8f9fa; /* Pelēka iekrāsošana aktīvā stāvoklī */
+}
+
+.btn-primary {
+    background-color: #dc3545; /* Sarkana poga */
+    border-color: #dc3545; /* Sarkana poga */
+}
+
+.btn-primary:hover {
+    background-color: #c82333; /* Sarkana poga ar hover stāvokli */
+    border-color: #bd2130; /* Sarkana poga ar hover stāvokli */
+}
