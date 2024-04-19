@@ -3,11 +3,11 @@ const carYear = document.getElementById("carYear");
 const maxPrice = document.getElementById("maxPrice");
 const minPrice = document.getElementById("minPrice");
 document.getElementById("poga").addEventListener("click", function(){
-const modelaVertiba = document.getElementById("model").value.trim(); // trim() noņem tukšumus no sākuma un beigām
-if (modelaVertiba === "") {
-    alert("Lūdzu, ievadiet mašīnas modeli.");
+const markValue = document.getElementById("mark").value.trim(); // trim() noņem tukšumus no sākuma un beigām
+if (markValue === "") {
+    alert("Lūdzu, ievadiet mašīnas marku.");
     return; // Iziet no funkcijas, ja modelis nav ievadīts
 }
-const URL = "https://www.ss.com/lv/transport/cars/" + modelaVertiba + "/rss/";
+const URL = "https://www.ss.com/lv/transport/cars/" + markValue + "/rss/";
 // Tagad varat izmantot URL turpmākai apstrādei
 });
