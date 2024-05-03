@@ -24,7 +24,6 @@ app.get("/get-data", async function (req, res) {
   const minPrice = req.query.minPrice; // get minPrice from query string
   console.log(markValue, model, year, maxPrice, minPrice);
 
-
   try {
     //function to fetch data from the server
     const feed = await fetchData(markValue);
@@ -46,7 +45,7 @@ async function fetchData(markValue) {
     const parser = new rssParser();
     const feed = [];
 
-    for (let i = 1; i <= 50; i++) {
+    for (let i = 1; i <= 5; i++) {
       const URL = `https://www.ss.com/lv/transport/cars/${markValue}/page${i}.html/rss/`;
       const data = await parser.parseURL(URL);
       feed.push(...data.items);
@@ -59,26 +58,25 @@ async function fetchData(markValue) {
   }
 }
 
-
 //TODO: filter data
 function filterData(feed, model, year, maxPrice, minPrice) {
   // filter data based on model, year, maxPrice, and minPrice
   let filteredData = feed;
 
   if (model) {
-    filteredData = filteredData.filter(item => item.model === model);
+    filteredData = filteredData.filter((item) => item.model === model);
   }
 
   if (year) {
-    filteredData = filteredData.filter(item => item.year === year);
+    filteredData = filteredData.filter((item) => item.year === year);
   }
 
   if (maxPrice) {
-    filteredData = filteredData.filter(item => item.price <= maxPrice);
+    filteredData = filteredData.filter((item) => item.price <= maxPrice);
   }
 
   if (minPrice) {
-    filteredData = filteredData.filter(item => item.price >= minPrice);
+    filteredData = filteredData.filter((item) => item.price >= minPrice);
   }
 
   return filteredData;
