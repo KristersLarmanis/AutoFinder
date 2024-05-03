@@ -18,12 +18,12 @@ app.get("/get-data", async function (req, res) {
   //get the mark value from the query string
   const markValue = req.query.mark;
   //TODO: store filter parameters
-  //const model
-  //const year
-  //const maxPrice
-  //const minPrice
+  const model = req.query.model; // get model from query string
+  const year = req.query.year; // get year from query string
+  const maxPrice = req.query.maxPrice; // get maxPrice from query string
+  const minPrice = req.query.minPrice; // get minPrice from query string
+  console.log(markValue, model, year, maxPrice, minPrice);
 
-  console.log(markValue);
 
   try {
     //function to fetch data from the server
@@ -31,7 +31,7 @@ app.get("/get-data", async function (req, res) {
     console.log(feed.length);
 
     //TODO: filter data
-    //const filteredData = filterData(feed, model, year, maxPrice, minPrice);
+    const filteredData = filterData(feed, model, year, maxPrice, minPrice);
 
     res.send(feed);
   } catch (error) {
@@ -59,6 +59,27 @@ async function fetchData(markValue) {
   }
 }
 
-//function filterData(feed, model, year, maxPrice, minPrice) {
+
 //TODO: filter data
-//}
+function filterData(feed, model, year, maxPrice, minPrice) {
+  // filter data based on model, year, maxPrice, and minPrice
+  let filteredData = feed;
+
+  if (model) {
+    filteredData = filteredData.filter(item => item.model === model);
+  }
+
+  if (year) {
+    filteredData = filteredData.filter(item => item.year === year);
+  }
+
+  if (maxPrice) {
+    filteredData = filteredData.filter(item => item.price <= maxPrice);
+  }
+
+  if (minPrice) {
+    filteredData = filteredData.filter(item => item.price >= minPrice);
+  }
+
+  return filteredData;
+}
