@@ -15,3 +15,11 @@
     background-color: #c82333; /* Sarkana poga ar hover stāvokli */
     border-color: #bd2130; /* Sarkana poga ar hover stāvokli */
 }
+.custom-input {
+    width: 100%;
+  }
+  
+  .list-group-item {
+    margin-bottom: 10px;
+  }
+  
