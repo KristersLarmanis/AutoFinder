@@ -9,9 +9,25 @@ async function getData() {
   }
 
   const model = document.getElementById("model").value.trim() || "";
+  if (model === "") {
+    alert("Lūdzu, ievadiet mašīnas modeli.");
+    return; 
+  }
   const carYear = document.getElementById("carYear").value.trim() || "";
+  if (carYear === "") {
+    alert("Lūdzu, ievadiet mašīnas marku.");
+    return; 
+  }
   const maxPrice = document.getElementById("maxPrice").value.trim() || "";
+  if (markValue === "") {
+    alert("Lūdzu, ievadiet mašīnas max cenu .");
+    return; 
+  }
   const minPrice = document.getElementById("minPrice").value.trim() || "";
+  if (markValue === "") {
+    alert("Lūdzu, ievadiet mašīnas min cenu.");
+    return; 
+  }
 
   const response = await fetch(
     `http://localhost:3000/get-data?mark=${markValue}&model=${model}&year=${carYear}&maxPrice=${maxPrice}&minPrice=${minPrice}`
