@@ -35,10 +35,16 @@ function displayResults(data) {
     const listItem = document.createElement("li");
     listItem.classList.add("list-group-item");
     listItem.innerHTML = `
-      <h5>${car.title}</h5>
-      <p>Model: ${car.model}</p>
-      <p>Year: ${car.year}</p>
-      <p>Price: ${car.price}</p>
+      <div class="card">
+        <img src="${car.content.match(/src="([^"]+)"/)[1]}" class="card-img-top" alt="Car Image" style="max-width: 100px; max-height: 100px; object-fit: cover;">
+        <div class="card-body">
+          <h5 class="card-title">${car.title}</h5>
+          <p class="card-text">Model: ${car.content.match(/Modelis: <b>(.*?)<\/b>/)[1]}</p>
+          <p class="card-text">Year: ${car.content.match(/Gads: <b>(.*?)<\/b>/)[1]}</p>
+          <p class="card-text">Price: ${car.content.match(/Cena: <b>(.*?)<\/b>/)[1]}</p>
+          <a href="${car.link}" class="btn btn-primary">See more</a>
+        </div>
+      </div>
     `;
     resultList.appendChild(listItem);
   });
