@@ -1,53 +1,50 @@
-// Import necessary modules
+//pievienot pakotnes
 const express = require("express");
-const cors = require("cors");
+var cors = require("cors");
 const rssParser = require("rss-parser");
-
-// Initialize Express app
+//aktivizēt Express
 const app = express();
-const port = 3000;
-
-// Enable CORS
+//lietot CORS
 app.use(cors());
-
-// Start server
-app.listen(port, function () {
+const port = 3000;
+app.listen(port, function (req, res) {
   console.log(`Server is running at port ${port}`);
 });
 
-// Endpoint for fetching and filtering data
+// add endpoint for getting data
 app.get("/get-data", async function (req, res) {
-  console.log("GET request to /get-data");
+  console.log("get-data endpoint was hit");
 
-  // Extract query parameters
+  //get the mark value from the query string
   const markValue = req.query.mark;
-  const model = req.query.model;
-  const year = req.query.year;
-  const maxPrice = req.query.maxPrice;
-  const minPrice = req.query.minPrice;
+  //TODO: store filter parameters
+  const model = req.query.model; // get model from query string
+  const year = req.query.year; // get year from query string
+  const maxPrice = req.query.maxPrice; // get maxPrice from query string
+  const minPrice = req.query.minPrice; // get minPrice from query string
+  console.log(markValue, model, year, maxPrice, minPrice);
 
   try {
-    // Fetch data from RSS feed
+    //function to fetch data from the server
     const feed = await fetchData(markValue);
+    console.log(feed.length);
 
-    // Filter data based on parameters
+    //TODO: filter data
     const filteredData = filterData(feed, model, year, maxPrice, minPrice);
 
-    // Send filtered data as response
-    res.json(filteredData);
+    res.send(feed);
   } catch (error) {
-    console.error("Error fetching or filtering data:", error);
-    res.status(500).send("Error fetching or filtering data");
+    console.error("Error fetching data:", error);
+    res.status(500).send("Error fetching data");
   }
 });
 
-// Function to fetch data from RSS feed
+//function to fetch data from the server
 async function fetchData(markValue) {
   try {
     const parser = new rssParser();
     const feed = [];
 
-    // Fetch data from RSS feed pages
     for (let i = 1; i <= 5; i++) {
       const URL = `https://www.ss.com/lv/transport/cars/${markValue}/page${i}.html/rss/`;
       const data = await parser.parseURL(URL);
@@ -61,38 +58,25 @@ async function fetchData(markValue) {
   }
 }
 
-// Function to filter data based on parameters
+//TODO: filter data
 function filterData(feed, model, year, maxPrice, minPrice) {
+  // filter data based on model, year, maxPrice, and minPrice
   let filteredData = feed;
 
-  // Filter data based on model
   if (model) {
-    filteredData = filteredData.filter((item) => {
-      return item.title.toLowerCase().includes(model.toLowerCase());
-    });
+    filteredData = filteredData.filter((item) => item.model === model);
   }
 
-  // Filter data based on year
   if (year) {
-    filteredData = filteredData.filter((item) => {
-      return item.description.includes(`<b>${year}</b>`);
-    });
+    filteredData = filteredData.filter((item) => item.year === year);
   }
 
-  // Filter data based on max price
   if (maxPrice) {
-    filteredData = filteredData.filter((item) => {
-      const price = parseFloat(item.description.match(/Cena: <b>(.*?)<\/b>/)[1].replace(/[^0-9.-]+/g,""));
-      return price <= parseFloat(maxPrice);
-    });
+    filteredData = filteredData.filter((item) => item.price <= maxPrice);
   }
 
-  // Filter data based on min price
   if (minPrice) {
-    filteredData = filteredData.filter((item) => {
-      const price = parseFloat(item.description.match(/Cena: <b>(.*?)<\/b>/)[1].replace(/[^0-9.-]+/g,""));
-      return price >= parseFloat(minPrice);
-    });
+    filteredData = filteredData.filter((item) => item.price >= minPrice);
   }
 
   return filteredData;
